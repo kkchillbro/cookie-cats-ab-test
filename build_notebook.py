@@ -179,23 +179,27 @@ for metric in ["retention_1", "retention_7"]:
 md("""
 ## 6. Decision
 
-Fill in from the numbers above (they are printed by the cells, not typed by hand):
+| metric | gate_30 | gate_40 | difference (95% CI) | p-value |
+|---|---|---|---|---|
+| **7-day retention** (primary) | 19.02% | 18.20% | **−0.82 pp** (−1.33 … −0.31) | 0.0016 |
+| 1-day retention | 44.82% | 44.23% | −0.59 pp (−1.24 … +0.06) | 0.074 |
+| median rounds (14 days) | 17 | 16 | −1 (−1 … 0) | 0.051 (Mann-Whitney) |
 
-- **7-day retention is lower with the gate at level 40**, and the confidence interval excludes zero; the bootstrap agrees.
-- 1-day retention also tends to be lower but is not significant at α = 5%.
-- Rounds played do not differ meaningfully: most players never reach either gate.
+- **7-day retention is 0.82 pp (−4.3% relative) lower with the gate at level 40.** The confidence interval excludes zero, the bootstrap agrees, and the effect is larger than the test's MDE (0.74 pp), so the test had enough power to see it.
+- 1-day retention points the same way but is not significant at α = 5%.
+- Engagement barely moves: 63% of players never reach round 30, so most users never see either gate.
 
-**Recommendation: keep the gate at level 30.** Moving it to 40 risks losing long-term players, who are the source of in-app revenue.
+**Recommendation: keep the gate at level 30.** Moving it to 40 loses about 1 in 23 of the players who would still be playing after a week, and long-term players are the source of in-app revenue.
 
 ### Why might a later gate *hurt*? (hypotheses for the next test)
 - *Hedonic adaptation*: a forced break makes players come back fresher; without it they burn out faster.
 - At level 30 the break hits at the moment of peak engagement, creating a reason to return.
 
 ## 7. Limitations
-- **Mild SRM** (p ≈ 0.009): small but real imbalance, the assignment mechanism should be checked.
-- Two primary-ish metrics were tested; with a Bonferroni correction (α = 0.025) the 7-day result still holds only if its p-value is below 0.025, check the table.
-- Retention is measured as a flag on day 1 and day 7, not as a curve; a later horizon (day 30) and revenue are not in the data.
-- Only ~half of the players reach level 30, so the treatment touches a subset; an analysis restricted to players who reached the gate would be biased (selection after treatment) and is deliberately not done.
+- **Mild SRM** (p = 0.0086): a 49.6 / 50.4 split. Not enough to discard the test, but the assignment mechanism should be checked before trusting effects this small.
+- Two retention metrics were tested. With a Bonferroni correction (α = 0.025) the 7-day result still holds (p = 0.0016).
+- Retention is a flag on day 1 and day 7, not a curve; day-30 retention and revenue are not in the data, so the revenue impact is an inference.
+- Only 37% of players reach level 30, so the treatment touches a minority. Restricting the analysis to players who reached the gate would bias it (selection after treatment), so it is deliberately not done.
 """)
 
 nb = {"cells": cells,
